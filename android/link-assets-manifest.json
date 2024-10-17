@@ -1,0 +1,17 @@
+{
+  "migIndex": 1,
+  "data": [
+    {
+      "path": "assets/fonts/UM Merge Black.ttf",
+      "sha1": "cd597f3abe1f8570c314a905ae39f71686902400"
+    },
+    {
+      "path": "assets/fonts/UM Merge Bold.ttf",
+      "sha1": "42e960b545471b2f3674d74bf3200df9e45147c8"
+    },
+    {
+      "path": "assets/fonts/UM Merge Regular.ttf",
+      "sha1": "fe1e9adcd86fc6a3290e76e298b645dedad42181"
+    }
+  ]
+}

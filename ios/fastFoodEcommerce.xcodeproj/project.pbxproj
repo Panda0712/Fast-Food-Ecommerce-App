@@ -14,6 +14,9 @@
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		7699B88040F8A987B510C191 /* libPods-fastFoodEcommerce-fastFoodEcommerceTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19F6CBCC0A4E27FBF8BF4A61 /* libPods-fastFoodEcommerce-fastFoodEcommerceTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		3524DC8FF70E4A6D9D0788F5 /* UM Merge Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0DF1434D813D4B0A879165B5 /* UM Merge Black.ttf */; };
+		CE404838B1ED40A7BB81CAE8 /* UM Merge Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FE96A484647749FB929ACCBD /* UM Merge Bold.ttf */; };
+		395C7CE5F93647B5A0D44D4D /* UM Merge Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EA9564001FF549158557F2A9 /* UM Merge Regular.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,6 +48,9 @@
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = fastFoodEcommerce/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		89C6BE57DB24E9ADA2F236DE /* Pods-fastFoodEcommerce-fastFoodEcommerceTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-fastFoodEcommerce-fastFoodEcommerceTests.release.xcconfig"; path = "Target Support Files/Pods-fastFoodEcommerce-fastFoodEcommerceTests/Pods-fastFoodEcommerce-fastFoodEcommerceTests.release.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
+		0DF1434D813D4B0A879165B5 /* UM Merge Black.ttf */ = {isa = PBXFileReference; name = "UM Merge Black.ttf"; path = "../assets/fonts/UM Merge Black.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		FE96A484647749FB929ACCBD /* UM Merge Bold.ttf */ = {isa = PBXFileReference; name = "UM Merge Bold.ttf"; path = "../assets/fonts/UM Merge Bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		EA9564001FF549158557F2A9 /* UM Merge Regular.ttf */ = {isa = PBXFileReference; name = "UM Merge Regular.ttf"; path = "../assets/fonts/UM Merge Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -124,6 +130,7 @@
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				BBD78D7AC51CEA395F1C20DB /* Pods */,
+				77F6C70DA24C40E78648C667 /* Resources */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -149,6 +156,17 @@
 			);
 			path = Pods;
 			sourceTree = "<group>";
+		};
+		77F6C70DA24C40E78648C667 /* Resources */ = {
+			isa = "PBXGroup";
+			children = (
+				0DF1434D813D4B0A879165B5 /* UM Merge Black.ttf */,
+				FE96A484647749FB929ACCBD /* UM Merge Bold.ttf */,
+				EA9564001FF549158557F2A9 /* UM Merge Regular.ttf */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+			path = "";
 		};
 /* End PBXGroup section */
 
@@ -245,6 +263,9 @@
 			files = (
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				3524DC8FF70E4A6D9D0788F5 /* UM Merge Black.ttf in Resources */,
+				CE404838B1ED40A7BB81CAE8 /* UM Merge Bold.ttf in Resources */,
+				395C7CE5F93647B5A0D44D4D /* UM Merge Regular.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
