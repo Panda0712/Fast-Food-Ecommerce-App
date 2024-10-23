@@ -15,7 +15,7 @@ type Props = {
   title?: string;
   back?: boolean;
   right?: ReactNode;
-  left: ReactNode;
+  left?: ReactNode;
   isScroll?: boolean;
 };
 
@@ -23,7 +23,7 @@ const Container = (props: Props) => {
   const {children, title, back, right, left, isScroll} = props;
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={[globalStyles.container]}>
       {back ||
         title ||
         left ||

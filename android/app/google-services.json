@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "146596695929",
+    "project_id": "fastfoodecommerce",
+    "storage_bucket": "fastfoodecommerce.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:146596695929:android:747179f7f970631c80e9a8",
+        "android_client_info": {
+          "package_name": "com.fastfoodecommerce"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "146596695929-s97etnm341lrhrlki06k5d1mutpm6493.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.fastfoodecommerce",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "146596695929-he487k39kjasge7k6ajp419q3v9e81vm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDeP7wRRWjFrymGc3xoSA4fhxnBpfGYGls"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "146596695929-he487k39kjasge7k6ajp419q3v9e81vm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
