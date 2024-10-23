@@ -1,11 +1,11 @@
 /* eslint-disable react-native/no-inline-styles */
 import {Button, Input, Row, Section, Space} from '@bsdaoquang/rncomponent';
+import auth from '@react-native-firebase/auth';
+import {Google} from 'iconsax-react-native';
 import React, {useState} from 'react';
 import {Image, ScrollView, TouchableOpacity} from 'react-native';
 import {Container, TextComponent} from '../../components';
 import {colors} from '../../constants/colors';
-import {Google} from 'iconsax-react-native';
-import auth from '@react-native-firebase/auth';
 import {Auth} from '../../utils/handleAuth';
 
 const initialValue = {
@@ -43,8 +43,12 @@ const SignUp = ({navigation}: any) => {
 
       const user = credentialUser.user;
       if (user) {
-        user.displayName = registerForm.username ?? '';
-        await Auth.createProfile(user);
+        if (registerForm.username) {
+          await user.updateProfile({
+            displayName: registerForm.username,
+          });
+        }
+        await Auth.createProfile();
       }
       setIsLoading(false);
     } catch (error) {
