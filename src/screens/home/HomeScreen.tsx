@@ -89,7 +89,9 @@ const HomeScreen = ({navigation}: any) => {
       <Section styles={{marginBottom: 20}}>
         <Row justifyContent="space-between">
           <TextComponent text="Món ngon phải thử" />
-          <TextComponent text="Xem tất cả" />
+          <TouchableOpacity onPress={() => navigation.navigate('FoodTab')}>
+            <TextComponent text="Xem tất cả" />
+          </TouchableOpacity>
         </Row>
       </Section>
 
@@ -135,7 +137,7 @@ const HomeScreen = ({navigation}: any) => {
                 styles={{paddingHorizontal: 30, maxWidth: 150, flex: 0}}
                 size="small"
                 title="Mua ngay"
-                onPress={() => {}}
+                onPress={() => navigation.navigate('FoodDetail', {food: food})}
               />
             </View>
           </Row>

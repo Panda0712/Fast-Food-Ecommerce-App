@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import {Row} from '@bsdaoquang/rncomponent';
+import {colors, Row} from '@bsdaoquang/rncomponent';
 import React, {ReactNode} from 'react';
 import {
   Platform,
@@ -10,6 +10,7 @@ import {
   View,
   ViewStyle,
 } from 'react-native';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import {globalStyles} from '../styles/globalStyles';
 
 type Props = {
@@ -38,7 +39,9 @@ const Container = (props: Props) => {
               paddingTop:
                 Platform.OS === 'android' ? StatusBar.currentHeight : 42,
             }}>
-            {back && <></>}
+            {back && (
+              <Ionicons name="chevron-back" size={84} color={colors.black} />
+            )}
             {left && !back && <></>}
             <View
               style={{
@@ -47,7 +50,7 @@ const Container = (props: Props) => {
               }}>
               {title && <></>}
             </View>
-            {right && <></>}
+            {right && right}
           </Row>
         ))}
 

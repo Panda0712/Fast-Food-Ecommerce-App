@@ -1,17 +1,17 @@
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable react/no-unstable-nested-components */
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {ShoppingCart, User} from 'iconsax-react-native';
 import React from 'react';
 import {View} from 'react-native';
 import Entypo from 'react-native-vector-icons/Entypo';
-import {colors} from '../constants/colors';
-import CartNavigator from './CartNavigator';
-import HomeNavigator from './HomeNavigator';
-import ProfileNavigator from './ProfileNavigator';
-import FoodNavigator from './FoodNavigator';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {TextComponent} from '../components';
+import {colors} from '../constants/colors';
+import CartNavigator from './CartNavigator';
+import FoodNavigator from './FoodNavigator';
+import HomeNavigator from './HomeNavigator';
+import ProfileNavigator from './ProfileNavigator';
 
 const TabNavigator = () => {
   const Tabs = createBottomTabNavigator();
@@ -36,10 +36,10 @@ const TabNavigator = () => {
           let name = 'Trang chủ';
 
           if (route.name === 'CartTab') {
-            icon = <ShoppingCart variant="TwoTone" color={color} size={size} />;
+            icon = <Ionicons name="cart" color={color} size={size} />;
             name = 'Giỏ hàng';
           } else if (route.name === 'ProfileTab') {
-            icon = <User variant="TwoTone" color={color} size={size} />;
+            icon = <FontAwesome name="user" color={color} size={size} />;
             name = 'Tài khoản';
           } else if (route.name === 'FoodTab') {
             icon = <Ionicons name="fast-food" color={color} size={size} />;
