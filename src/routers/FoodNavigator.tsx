@@ -1,11 +1,14 @@
-import {View, Text} from 'react-native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import React from 'react';
+import FoodScreen from '../screens/food/FoodScreen';
 
 const FoodNavigator = () => {
+  const Stack = createNativeStackNavigator();
+
   return (
-    <View>
-      <Text>FoodNavigator</Text>
-    </View>
+    <Stack.Navigator screenOptions={{headerShown: false}}>
+      <Stack.Screen name="CartScreen" component={FoodScreen} />
+    </Stack.Navigator>
   );
 };
 

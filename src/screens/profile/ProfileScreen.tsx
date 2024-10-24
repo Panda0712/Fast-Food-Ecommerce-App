@@ -1,15 +1,18 @@
 /* eslint-disable react-native/no-inline-styles */
-import {Button, Row, Section, Space} from '@bsdaoquang/rncomponent';
-import auth from '@react-native-firebase/auth';
+import {Row, Section, Space} from '@bsdaoquang/rncomponent';
 import React from 'react';
-import {Image, View} from 'react-native';
+import {Image, TouchableOpacity, View} from 'react-native';
 import {Container, TextComponent} from '../../components';
 import {colors} from '../../constants/colors';
 import {fontFamilies} from '../../constants/fontFamilies';
 
+import auth from '@react-native-firebase/auth';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-const ProfileScreen = () => {
+const ProfileScreen = ({navigation}: any) => {
   const user = auth().currentUser;
 
   return (
@@ -53,42 +56,77 @@ const ProfileScreen = () => {
       <Space height={16} />
 
       <View style={{backgroundColor: colors.white}}>
-        <Button
-          inline
-          radius={0}
-          styles={{justifyContent: 'space-between'}}
-          title="Danh sách đơn hàng"
-          iconPosition="right"
-          icon={<Ionicons name="chevron-forward" size={18} />}
-          onPress={() => {}}
-        />
-        <Button
-          inline
-          radius={0}
-          styles={{justifyContent: 'space-between'}}
-          title="Dịch vụ"
-          iconPosition="right"
-          icon={<Ionicons name="chevron-forward" size={18} />}
-          onPress={() => {}}
-        />
-        <Button
-          inline
-          radius={0}
-          styles={{justifyContent: 'space-between'}}
-          title="Liên hệ"
-          iconPosition="right"
-          icon={<Ionicons name="chevron-forward" size={18} />}
-          onPress={() => {}}
-        />
-        <Button
-          inline
-          radius={0}
-          styles={{justifyContent: 'space-between'}}
-          title="Đăng xuất"
-          iconPosition="right"
-          icon={<Ionicons name="chevron-forward" size={18} />}
-          onPress={() => auth().signOut()}
-        />
+        <TouchableOpacity onPress={() => navigation.navigate('OrderScreen')}>
+          <Row
+            justifyContent="space-between"
+            styles={{
+              paddingHorizontal: 8,
+              paddingVertical: 16,
+              borderBottomColor: colors.grey2,
+              borderBottomWidth: 1,
+            }}>
+            <Row>
+              <FontAwesome6 name="clipboard-list" size={20} />
+              <Space width={10} />
+              <TextComponent size={18} text="Danh sách đơn hàng" />
+            </Row>
+            <Ionicons name="chevron-forward" size={20} />
+          </Row>
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={() => navigation.navigate('ServiceScreen')}>
+          <Row
+            justifyContent="space-between"
+            styles={{
+              paddingHorizontal: 8,
+              paddingVertical: 16,
+              borderBottomColor: colors.grey2,
+              borderBottomWidth: 1,
+            }}>
+            <Row>
+              <AntDesign name="customerservice" size={20} />
+              <Space width={10} />
+              <TextComponent size={18} text="Dịch vụ" />
+            </Row>
+            <Ionicons name="chevron-forward" size={20} />
+          </Row>
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={() => navigation.navigate('ContactScreen')}>
+          <Row
+            justifyContent="space-between"
+            styles={{
+              paddingHorizontal: 8,
+              paddingVertical: 16,
+              borderBottomColor: colors.grey2,
+              borderBottomWidth: 1,
+            }}>
+            <Row>
+              <AntDesign name="contacts" size={20} />
+              <Space width={10} />
+              <TextComponent size={18} text="Liên hệ" />
+            </Row>
+            <Ionicons name="chevron-forward" size={20} />
+          </Row>
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={() => auth().signOut()}>
+          <Row
+            justifyContent="space-between"
+            styles={{
+              paddingHorizontal: 8,
+              paddingVertical: 16,
+              borderBottomColor: colors.grey2,
+              borderBottomWidth: 1,
+            }}>
+            <Row>
+              <FontAwesome name="sign-out" size={20} />
+              <Space width={10} />
+              <TextComponent size={18} text="Đăng xuất" />
+            </Row>
+            <Ionicons name="chevron-forward" size={20} />
+          </Row>
+        </TouchableOpacity>
       </View>
     </Container>
   );

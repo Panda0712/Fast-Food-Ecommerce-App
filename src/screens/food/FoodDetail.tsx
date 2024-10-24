@@ -146,7 +146,11 @@ const FoodDetail = ({navigation, route}: any) => {
         <Row justifyContent="space-between">
           <Button
             radius={7}
-            textStyleProps={{fontSize: 13, fontWeight: 700, flex: 1}}
+            textStyleProps={{
+              fontSize: 13,
+              fontFamily: fontFamilies.mergeBold,
+              flex: 1,
+            }}
             styles={{marginVertical: 12, paddingHorizontal: 40}}
             title="Thêm vào giỏ"
             color={colors.yellow}
@@ -155,7 +159,11 @@ const FoodDetail = ({navigation, route}: any) => {
           <Space width={8} />
           <Button
             radius={7}
-            textStyleProps={{fontSize: 13, fontWeight: 700, flex: 1}}
+            textStyleProps={{
+              fontSize: 13,
+              fontFamily: fontFamilies.mergeBold,
+              flex: 1,
+            }}
             styles={{marginVertical: 12, paddingHorizontal: 40}}
             title="Thanh Toán Ngay"
             color={colors.red}

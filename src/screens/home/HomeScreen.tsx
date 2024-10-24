@@ -89,9 +89,9 @@ const HomeScreen = ({navigation}: any) => {
 
       <Section styles={{marginBottom: 20}}>
         <Row justifyContent="space-between">
-          <TextComponent text="Món ngon phải thử" />
+          <TextComponent size={18} text="Món ngon phải thử" />
           <TouchableOpacity onPress={() => navigation.navigate('FoodTab')}>
-            <TextComponent text="Xem tất cả" />
+            <TextComponent size={16} text="Xem tất cả" />
           </TouchableOpacity>
         </Row>
       </Section>
@@ -134,7 +134,10 @@ const HomeScreen = ({navigation}: any) => {
               <Button
                 radius={5}
                 color={colors.red}
-                textStyleProps={{fontSize: 13, fontWeight: 800}}
+                textStyleProps={{
+                  fontSize: 13,
+                  fontFamily: fontFamilies.mergeBold,
+                }}
                 styles={{paddingHorizontal: 30, maxWidth: 150, flex: 0}}
                 size="small"
                 title="Mua ngay"
@@ -247,7 +250,10 @@ const HomeScreen = ({navigation}: any) => {
                 <Button
                   size="small"
                   radius={7}
-                  textStyleProps={{fontSize: 13, fontWeight: 700}}
+                  textStyleProps={{
+                    fontSize: 13,
+                    fontFamily: fontFamilies.mergeBold,
+                  }}
                   styles={{marginVertical: 12}}
                   title="Thêm vào giỏ"
                   color={colors.yellow}
