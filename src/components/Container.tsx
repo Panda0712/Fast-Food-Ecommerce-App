@@ -6,7 +6,9 @@ import {
   SafeAreaView,
   ScrollView,
   StatusBar,
+  StyleProp,
   View,
+  ViewStyle,
 } from 'react-native';
 import {globalStyles} from '../styles/globalStyles';
 
@@ -17,10 +19,11 @@ type Props = {
   right?: ReactNode;
   left?: ReactNode;
   isScroll?: boolean;
+  style?: StyleProp<ViewStyle>;
 };
 
 const Container = (props: Props) => {
-  const {children, title, back, right, left, isScroll} = props;
+  const {children, title, back, right, left, isScroll, style} = props;
 
   return (
     <SafeAreaView style={[globalStyles.container]}>
@@ -49,9 +52,11 @@ const Container = (props: Props) => {
         ))}
 
       {!isScroll && isScroll !== false ? (
-        <ScrollView style={[globalStyles.container]}>{children}</ScrollView>
+        <ScrollView style={[globalStyles.container, style]}>
+          {children}
+        </ScrollView>
       ) : (
-        <View style={[globalStyles.container]}>{children}</View>
+        <View style={[globalStyles.container, style]}>{children}</View>
       )}
     </SafeAreaView>
   );

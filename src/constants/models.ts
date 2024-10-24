@@ -1,13 +1,13 @@
 export interface CategoryModel {
-  id: Number;
+  id: number;
   name: string;
 }
 
 export interface FoodModel {
-  id: Number;
+  id: number;
   name: string;
-  regularPrice: Number;
-  discount: Number;
+  regularPrice: number;
+  discount: number;
   description: string;
   image: string;
   category: string;
