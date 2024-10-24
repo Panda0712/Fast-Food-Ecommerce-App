@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import {colors, Row} from '@bsdaoquang/rncomponent';
+import {Row} from '@bsdaoquang/rncomponent';
 import React, {ReactNode} from 'react';
 import {
   Platform,
@@ -10,13 +10,16 @@ import {
   View,
   ViewStyle,
 } from 'react-native';
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import {colors} from '../constants/colors';
+import {fontFamilies} from '../constants/fontFamilies';
 import {globalStyles} from '../styles/globalStyles';
+
+import TextComponent from './TextComponent';
 
 type Props = {
   children: ReactNode;
   title?: string;
-  back?: boolean;
+  back?: ReactNode;
   right?: ReactNode;
   left?: ReactNode;
   isScroll?: boolean;
@@ -28,31 +31,34 @@ const Container = (props: Props) => {
 
   return (
     <SafeAreaView style={[globalStyles.container]}>
-      {back ||
-        title ||
-        left ||
-        (right && (
-          <Row
-            styles={{
+      {(back || title || left || right) && (
+        <Row
+          styles={{
+            paddingHorizontal: 16,
+            backgroundColor: colors.red,
+            paddingVertical: 16,
+            paddingTop:
+              Platform.OS === 'android' ? StatusBar.currentHeight : 42,
+          }}>
+          {back && back}
+          {left && !back && <></>}
+          <View
+            style={{
               paddingHorizontal: 16,
-              paddingVertical: 16,
-              paddingTop:
-                Platform.OS === 'android' ? StatusBar.currentHeight : 42,
+              flex: 1,
             }}>
-            {back && (
-              <Ionicons name="chevron-back" size={84} color={colors.black} />
+            {title && (
+              <TextComponent
+                size={18}
+                font={fontFamilies.mergeBold}
+                color={colors.white}
+                text={title}
+              />
             )}
-            {left && !back && <></>}
-            <View
-              style={{
-                paddingHorizontal: 16,
-                flex: 1,
-              }}>
-              {title && <></>}
-            </View>
-            {right && right}
-          </Row>
-        ))}
+          </View>
+          {right && right}
+        </Row>
+      )}
 
       {!isScroll && isScroll !== false ? (
         <ScrollView style={[globalStyles.container, style]}>

@@ -1,11 +1,8 @@
 /* eslint-disable react-native/no-inline-styles */
 import {Button, Input, Row, Section, Space} from '@bsdaoquang/rncomponent';
-import auth from '@react-native-firebase/auth';
 import {SearchNormal1} from 'iconsax-react-native';
 import React, {useEffect, useState} from 'react';
 import {FlatList, Image, TouchableOpacity, View} from 'react-native';
-import Swiper from 'react-native-swiper';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {Container, TextComponent} from '../../components';
 import {colors} from '../../constants/colors';
 import {fontFamilies} from '../../constants/fontFamilies';
@@ -14,6 +11,10 @@ import {CategoryModel, FoodModel} from '../../constants/models';
 import {sizes} from '../../constants/sizes';
 import {getCategories, getFoods} from '../../lib/actions';
 import {formatVND} from '../../utils/helper';
+
+import Swiper from 'react-native-swiper';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import auth from '@react-native-firebase/auth';
 
 const HomeScreen = ({navigation}: any) => {
   const [searchQuery, setSearchQuery] = useState('');

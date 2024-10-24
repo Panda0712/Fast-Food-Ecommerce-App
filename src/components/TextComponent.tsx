@@ -1,9 +1,10 @@
 import {Text} from '@bsdaoquang/rncomponent';
-import React from 'react';
 import {StyleProp, TextStyle} from 'react-native';
 import {colors} from '../constants/colors';
 import {fontFamilies} from '../constants/fontFamilies';
 import {sizes} from '../constants/sizes';
+
+import React from 'react';
 
 type Props = {
   text: string;
