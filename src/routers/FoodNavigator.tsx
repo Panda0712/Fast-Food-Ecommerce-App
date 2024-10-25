@@ -7,7 +7,7 @@ const FoodNavigator = () => {
 
   return (
     <Stack.Navigator screenOptions={{headerShown: false}}>
-      <Stack.Screen name="CartScreen" component={FoodScreen} />
+      <Stack.Screen name="FoodScreen" component={FoodScreen} />
     </Stack.Navigator>
   );
 };
