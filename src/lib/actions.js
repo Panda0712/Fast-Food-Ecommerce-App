@@ -1,4 +1,5 @@
 import supabase from './supabase';
+import Toast from 'react-native-toast-message';
 
 export const getCategories = async () => {
   let {data: categories, error} = await supabase.from('category').select('*');
@@ -18,4 +19,24 @@ export const getFoods = async () => {
   }
 
   return {foods, error};
+};
+
+export const insertContact = async newData => {
+  const {data: contactData, error} = await supabase
+    .from('contact')
+    .insert([newData])
+    .select();
+
+  if (error) {
+    Toast.show({
+      type: 'error',
+      text1: 'Thông báo',
+      text2: error.message,
+    });
+    throw new Error(
+      'Lỗi upload dữ liệu ý kiến khách hàng! Vui lòng thử lại sau!',
+    );
+  }
+
+  return {contactData, error};
 };

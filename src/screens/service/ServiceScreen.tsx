@@ -29,7 +29,14 @@ const ServiceScreen = ({navigation}: any) => {
         <Row
           alignItems="center"
           justifyContent="space-between"
-          styles={{width: '100%', paddingVertical: 12}}>
+          styles={{
+            width: '100%',
+            paddingVertical: 12,
+            paddingHorizontal: 12,
+            borderRadius: 8,
+            backgroundColor: colors.grey5,
+            elevation: 3,
+          }}>
           <Row styles={{flexDirection: 'column'}} alignItems="flex-start">
             <TextComponent size={20} text="Thanh toán khi nhận hàng" />
             <TextComponent
@@ -58,12 +65,19 @@ const ServiceScreen = ({navigation}: any) => {
           />
         </Row>
 
-        <Space height={12} />
+        <Space height={20} />
 
         <Row
           alignItems="center"
           justifyContent="space-between"
-          styles={{width: '100%', paddingVertical: 12}}>
+          styles={{
+            width: '100%',
+            paddingVertical: 12,
+            paddingHorizontal: 12,
+            borderRadius: 8,
+            backgroundColor: colors.grey,
+            elevation: 3,
+          }}>
           <Row styles={{flexDirection: 'column'}} alignItems="flex-start">
             <TextComponent size={20} text="Thanh toán trực tiếp" />
             <TextComponent
@@ -92,12 +106,19 @@ const ServiceScreen = ({navigation}: any) => {
           />
         </Row>
 
-        <Space height={12} />
+        <Space height={20} />
 
         <Row
           alignItems="center"
           justifyContent="space-between"
-          styles={{width: '100%', paddingVertical: 12}}>
+          styles={{
+            width: '100%',
+            paddingVertical: 12,
+            paddingHorizontal: 12,
+            borderRadius: 8,
+            backgroundColor: colors.grey5,
+            elevation: 3,
+          }}>
           <Row styles={{flexDirection: 'column'}} alignItems="flex-start">
             <TextComponent size={20} text="Đặt tiệc lớn" />
             <TextComponent

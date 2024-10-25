@@ -12,3 +12,10 @@ export interface FoodModel {
   image: string;
   category: string;
 }
+
+export interface ContactModel {
+  name: string;
+  email: string;
+  phone: string;
+  content: string;
+}
