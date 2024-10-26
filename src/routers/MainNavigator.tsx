@@ -1,10 +1,15 @@
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import React from 'react';
 
-import {ContactScreen, OrderScreen, ServiceScreen} from '../screens';
-import FoodDetail from '../screens/food/FoodDetail';
+import {
+  AboutScreen,
+  ContactScreen,
+  FoodDetail,
+  OrderScreen,
+  SearchScreen,
+  ServiceScreen,
+} from '../screens';
 import TabNavigator from './TabNavigator';
-import AboutScreen from '../screens/about/AboutScreen';
 
 const MainNavigator = () => {
   const Stack = createNativeStackNavigator();
@@ -17,6 +22,7 @@ const MainNavigator = () => {
       <Stack.Screen name="ServiceScreen" component={ServiceScreen} />
       <Stack.Screen name="ContactScreen" component={ContactScreen} />
       <Stack.Screen name="AboutScreen" component={AboutScreen} />
+      <Stack.Screen name="SearchScreen" component={SearchScreen} />
     </Stack.Navigator>
   );
 };
