@@ -110,6 +110,24 @@ const ProfileScreen = ({navigation}: any) => {
           </Row>
         </TouchableOpacity>
 
+        <TouchableOpacity onPress={() => navigation.navigate('AboutScreen')}>
+          <Row
+            justifyContent="space-between"
+            styles={{
+              paddingHorizontal: 8,
+              paddingVertical: 16,
+              borderBottomColor: colors.grey2,
+              borderBottomWidth: 1,
+            }}>
+            <Row>
+              <Ionicons name="information-circle" size={20} />
+              <Space width={10} />
+              <TextComponent size={18} text="Thông tin liên lạc" />
+            </Row>
+            <Ionicons name="chevron-forward" size={20} />
+          </Row>
+        </TouchableOpacity>
+
         <TouchableOpacity onPress={() => auth().signOut()}>
           <Row
             justifyContent="space-between"

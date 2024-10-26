@@ -17,4 +17,6 @@ export const colors = {
   yellow2: '#fea033',
   yellow3: '#fec380',
   red: '#ea1837',
+  instagram: '#c13584',
+  twitter: '#1DA1F2',
 };
