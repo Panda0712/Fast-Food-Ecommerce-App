@@ -172,7 +172,7 @@ const HomeScreen = ({navigation}: any) => {
           color={colors.orange}
           radius={12}
           title="🍕 Khám phá thực đơn ngay 🍔"
-          onPress={() => navigation.navigate('FoodScreen')}
+          onPress={() => navigation.navigate('FoodTab')}
         />
       </Row>
 

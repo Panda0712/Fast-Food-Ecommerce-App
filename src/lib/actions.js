@@ -21,6 +21,64 @@ export const getFoods = async () => {
   return {foods, error};
 };
 
+export const getSpecificFoods = async foodId => {
+  let {data: foods, error} = await supabase
+    .from('foods')
+    .select('*')
+    .in('id', foodId);
+
+  if (error) {
+    Toast.show({
+      type: 'error',
+      text1: 'Thông báo',
+      text2: error.message,
+    });
+    throw new Error('Lấy dữ liệu món ăn thất bại! Vui lòng thử lại sau!');
+  }
+
+  return {foods, error};
+};
+
+export const getOrdersCount = async guestId => {
+  let {count, error} = await supabase
+    .from('orders')
+    .select('*', {count: 'exact'})
+    .eq('guestId', guestId);
+
+  if (error) {
+    Toast.show({
+      type: 'error',
+      text1: 'Thông báo',
+      text2: error.message,
+    });
+    throw new Error('Lấy số lượng đơn hàng thất bại! Vui lòng thử lại sau!');
+  }
+
+  return {count, error};
+};
+
+export const getPaginationOrders = async (guestId, start, end) => {
+  let {data: paginationOrders, error} = await supabase
+    .from('orders')
+    .select('*')
+    .eq('guestId', guestId)
+    .order('created_at', {ascending: false})
+    .range(start, end);
+
+  if (error) {
+    Toast.show({
+      type: 'error',
+      text1: 'Thông báo',
+      text2: error.message,
+    });
+    throw new Error(
+      'Lấy dữ liệu phân trang đơn đặt hàng thất bại! Vui lòng thử lại sau!',
+    );
+  }
+
+  return {paginationOrders, error};
+};
+
 export const insertContact = async newData => {
   const {data: contactData, error} = await supabase
     .from('contact')
@@ -39,4 +97,28 @@ export const insertContact = async newData => {
   }
 
   return {contactData, error};
+};
+
+export const getSpecificUser = async email => {
+  let {data: guest, error} = await supabase
+    .from('guests')
+    .select('*')
+    .eq('email', email)
+    .limit(1);
+
+  if (error) {
+    Toast.show({
+      type: 'error',
+      text1: 'Thông báo',
+      text2: error.message,
+    });
+    throw new Error('Lấy dữ liệu khách hàng thất bại! Vui lòng thử lại sau!');
+  }
+
+  if (!guest || guest.length === 0) {
+    guest = [];
+    return {guest};
+  }
+
+  return {guest: guest[0], error};
 };

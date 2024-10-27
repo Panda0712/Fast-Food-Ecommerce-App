@@ -9,3 +9,5 @@ export const sizes = {
   desc: 12,
   icon: 18,
 };
+
+export const HISTORY_PAGE_SIZE = 8;

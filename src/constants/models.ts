@@ -19,3 +19,25 @@ export interface ContactModel {
   phone: string;
   content: string;
 }
+
+export interface OrderModel {
+  id: number;
+  orderTime: string;
+  numFood: number;
+  foodPrice: number;
+  totalPrice: number;
+  status: string;
+  isPaid: boolean;
+  observations?: string;
+  foodId: number;
+  guestId: number;
+}
+
+export interface GuestModel {
+  id: number;
+  fullName: string;
+  email: string;
+  nationalID?: string;
+  address: string;
+  phone: string;
+}

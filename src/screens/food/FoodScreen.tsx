@@ -96,7 +96,7 @@ const FoodScreen = ({navigation}: any) => {
 
         <Space height={16} />
 
-        <View style={{paddingBottom: 200}}>
+        <View style={{paddingBottom: 230}}>
           <FlatList
             numColumns={2}
             data={filterFoods}
