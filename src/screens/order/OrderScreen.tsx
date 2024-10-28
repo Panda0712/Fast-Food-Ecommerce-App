@@ -79,7 +79,7 @@ const OrderScreen = ({navigation}: any) => {
           </Row>
         )}
       </Section>
-      {guestData ? <OrderHistory guestData={guestData} /> : <></>}
+      {guestData.length > 0 ? <OrderHistory guestData={guestData} /> : <></>}
     </Container>
   );
 };

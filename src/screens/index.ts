@@ -7,10 +7,12 @@ import ContactScreen from './contact/ContactScreen';
 import FoodDetail from './food/FoodDetail';
 import FoodScreen from './food/FoodScreen';
 import HomeScreen from './home/HomeScreen';
+import OrderHistory from './order/components/OrderHistory';
 import OrderScreen from './order/OrderScreen';
 import ProfileScreen from './profile/ProfileScreen';
 import SearchScreen from './search/SearchScreen';
 import ServiceScreen from './service/ServiceScreen';
+import ShippingForm from './shipping/components/ShippingForm';
 import ShippingScreen from './shipping/ShippingScreen';
 import SuccessScreen from './success/SuccessScreen';
 
@@ -29,5 +31,7 @@ export {
   SearchScreen,
   CheckoutScreen,
   ShippingScreen,
+  ShippingForm,
   SuccessScreen,
+  OrderHistory,
 };

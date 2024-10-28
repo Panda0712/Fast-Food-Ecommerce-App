@@ -41,3 +41,12 @@ export interface GuestModel {
   address: string;
   phone: string;
 }
+
+export interface FormData {
+  id: number;
+  name: string;
+  email: string;
+  phone: string;
+  address: string;
+  observations?: string;
+}

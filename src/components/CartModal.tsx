@@ -25,6 +25,7 @@ interface Props {
 
 export type RootStackParamList = {
   FoodTab: undefined;
+  ShippingScreen: undefined;
 };
 
 const CartModal = ({visible, onClose}: Props) => {
@@ -239,7 +240,7 @@ const CartModal = ({visible, onClose}: Props) => {
                   styles={{marginVertical: 12, paddingHorizontal: 20}}
                   title="Thanh Toán Ngay"
                   color={colors.red}
-                  onPress={() => {}}
+                  onPress={() => navigation.navigate('ShippingScreen')}
                 />
               </Row>
             </Row>
