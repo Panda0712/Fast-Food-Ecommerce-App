@@ -3,11 +3,14 @@ import React from 'react';
 
 import {
   AboutScreen,
+  CheckoutScreen,
   ContactScreen,
   FoodDetail,
   OrderScreen,
   SearchScreen,
   ServiceScreen,
+  ShippingScreen,
+  SuccessScreen,
 } from '../screens';
 import TabNavigator from './TabNavigator';
 
@@ -23,6 +26,9 @@ const MainNavigator = () => {
       <Stack.Screen name="ContactScreen" component={ContactScreen} />
       <Stack.Screen name="AboutScreen" component={AboutScreen} />
       <Stack.Screen name="SearchScreen" component={SearchScreen} />
+      <Stack.Screen name="ShippingScreen" component={ShippingScreen} />
+      <Stack.Screen name="CheckoutScreen" component={CheckoutScreen} />
+      <Stack.Screen name="SuccessScreen" component={SuccessScreen} />
     </Stack.Navigator>
   );
 };

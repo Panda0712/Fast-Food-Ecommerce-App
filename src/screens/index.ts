@@ -2,6 +2,7 @@ import AboutScreen from './about/AboutScreen';
 import Login from './auth/Login';
 import SignUp from './auth/SignUp';
 import CartScreen from './cart/CartScreen';
+import CheckoutScreen from './checkout/CheckoutScreen';
 import ContactScreen from './contact/ContactScreen';
 import FoodDetail from './food/FoodDetail';
 import FoodScreen from './food/FoodScreen';
@@ -10,6 +11,8 @@ import OrderScreen from './order/OrderScreen';
 import ProfileScreen from './profile/ProfileScreen';
 import SearchScreen from './search/SearchScreen';
 import ServiceScreen from './service/ServiceScreen';
+import ShippingScreen from './shipping/ShippingScreen';
+import SuccessScreen from './success/SuccessScreen';
 
 export {
   HomeScreen,
@@ -24,4 +27,7 @@ export {
   FoodScreen,
   AboutScreen,
   SearchScreen,
+  CheckoutScreen,
+  ShippingScreen,
+  SuccessScreen,
 };

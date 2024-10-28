@@ -333,7 +333,9 @@ const FoodDetail = ({navigation, route}: any) => {
             styles={{marginVertical: 12, paddingHorizontal: 40}}
             title="Thanh Toán Ngay"
             color={colors.red}
-            onPress={() => {}}
+            onPress={() =>
+              isInCart ? navigation.navigate('ShippingScreen') : handleError()
+            }
           />
         </Row>
       </Section>
