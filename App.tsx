@@ -10,6 +10,7 @@ import Toast, {
   BaseToastProps,
   ErrorToast,
 } from 'react-native-toast-message';
+import CartProvider from './src/context/CartContext';
 
 const toastConfig = {
   success: (props: React.JSX.IntrinsicAttributes & BaseToastProps) => (
@@ -49,12 +50,12 @@ const App = () => {
   }, []);
 
   return (
-    <>
+    <CartProvider>
       <NavigationContainer>
         {!isLogin ? <AuthNavigator /> : <MainNavigator />}
       </NavigationContainer>
       <Toast config={toastConfig} />
-    </>
+    </CartProvider>
   );
 };
 

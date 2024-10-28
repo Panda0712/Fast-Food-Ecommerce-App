@@ -13,6 +13,7 @@ import {formatVND} from '../../utils/helper';
 
 import auth from '@react-native-firebase/auth';
 import Swiper from 'react-native-swiper';
+import Cart from '../../components/Cart';
 
 const HomeScreen = ({navigation}: any) => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -31,6 +32,7 @@ const HomeScreen = ({navigation}: any) => {
 
   return (
     <Container isScroll={false} style={{backgroundColor: colors.white}}>
+      <Cart />
       <Section
         styles={{
           paddingHorizontal: 16,

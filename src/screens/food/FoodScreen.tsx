@@ -10,11 +10,33 @@ import {icons} from '../../constants/icons';
 import {CategoryModel, FoodModel} from '../../constants/models';
 import {getCategories, getFoods} from '../../lib/actions';
 import {formatVND} from '../../utils/helper';
+import {useCart} from '../../context/CartContext';
+import Cart from '../../components/Cart';
+import Toast from 'react-native-toast-message';
 
 const FoodScreen = ({navigation}: any) => {
   const [categories, setCategories] = useState<CategoryModel[]>([]);
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [foods, setFoods] = useState<FoodModel[]>([]);
+
+  const {addToCart}: any = useCart();
+
+  const handleCart = (item: any) => {
+    addToCart({
+      id: item.id,
+      foodName: item.name,
+      regularPrice: item.regularPrice,
+      discount: item.discount,
+      totalPrice: item.regularPrice - item.discount,
+      image: item.image,
+      quantity: 1,
+    });
+    Toast.show({
+      type: 'success',
+      text1: 'Thông báo',
+      text2: 'Thêm vào giỏ hàng thành công',
+    });
+  };
 
   const handleGetCategories = async () => {
     const items: any = await getCategories();
@@ -50,6 +72,7 @@ const FoodScreen = ({navigation}: any) => {
         </TouchableOpacity>
       }
       title="Thực đơn">
+      <Cart />
       <Section styles={{marginTop: 24}}>
         <View>
           <FlatList
@@ -164,7 +187,7 @@ const FoodScreen = ({navigation}: any) => {
                     styles={{marginVertical: 12}}
                     title="Thêm vào giỏ"
                     color={colors.yellow}
-                    onPress={() => {}}
+                    onPress={() => handleCart(item)}
                   />
                 </Row>
               </TouchableOpacity>

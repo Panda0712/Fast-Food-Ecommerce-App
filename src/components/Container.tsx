@@ -24,10 +24,12 @@ type Props = {
   left?: ReactNode;
   isScroll?: boolean;
   style?: StyleProp<ViewStyle>;
+  nestedFlatList?: boolean;
 };
 
 const Container = (props: Props) => {
-  const {children, title, back, right, left, isScroll, style} = props;
+  const {children, title, back, right, left, isScroll, style, nestedFlatList} =
+    props;
 
   return (
     <SafeAreaView style={[globalStyles.container]}>
@@ -61,7 +63,9 @@ const Container = (props: Props) => {
       )}
 
       {!isScroll && isScroll !== false ? (
-        <ScrollView style={[globalStyles.container, style]}>
+        <ScrollView
+          style={[globalStyles.container, style]}
+          removeClippedSubviews={nestedFlatList}>
           {children}
         </ScrollView>
       ) : (

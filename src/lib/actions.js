@@ -21,6 +21,23 @@ export const getFoods = async () => {
   return {foods, error};
 };
 
+export const getRelatedFoods = async (category, id) => {
+  const {data: relatedFoods, error} = await supabase
+    .from('foods')
+    .select('*')
+    .eq('category', category)
+    .neq('id', id)
+    .limit(8);
+
+  if (error) {
+    throw new Error(
+      'Lỗi tải dữ liệu các món ăn tương ứng! Vui lòng thử lại sau!',
+    );
+  }
+
+  return {relatedFoods, error};
+};
+
 export const getSpecificFoods = async foodId => {
   let {data: foods, error} = await supabase
     .from('foods')
