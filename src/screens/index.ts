@@ -3,6 +3,7 @@ import Login from './auth/Login';
 import SignUp from './auth/SignUp';
 import CartScreen from './cart/CartScreen';
 import CheckoutScreen from './checkout/CheckoutScreen';
+import CheckoutForm from './checkout/components/CheckoutForm';
 import ContactScreen from './contact/ContactScreen';
 import FoodDetail from './food/FoodDetail';
 import FoodScreen from './food/FoodScreen';
@@ -34,4 +35,5 @@ export {
   ShippingForm,
   SuccessScreen,
   OrderHistory,
+  CheckoutForm,
 };

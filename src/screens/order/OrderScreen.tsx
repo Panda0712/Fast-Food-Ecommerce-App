@@ -9,9 +9,10 @@ import {getSpecificUser} from '../../lib/actions';
 import {Button, Row, Section, Space} from '@bsdaoquang/rncomponent';
 import {fontFamilies} from '../../constants/fontFamilies';
 import OrderHistory from './components/OrderHistory';
+import {GuestModel} from '../../constants/models';
 
 const OrderScreen = ({navigation}: any) => {
-  const [guestData, setGuestData] = useState([]);
+  const [guestData, setGuestData] = useState<GuestModel>();
   const [isLoading, setIsLoading] = useState(false);
 
   const user = auth().currentUser;
@@ -47,7 +48,7 @@ const OrderScreen = ({navigation}: any) => {
           size={24}
           text="Lịch sử đặt hàng của bạn"
         />
-        {guestData.length === 0 && (
+        {!guestData?.id && (
           <>
             <Space height={8} />
             <TextComponent
@@ -57,7 +58,7 @@ const OrderScreen = ({navigation}: any) => {
             />
           </>
         )}
-        {guestData.length === 0 && (
+        {!guestData?.id && (
           <Row styles={{marginTop: 20, flexDirection: 'column'}}>
             <Image
               source={require('../../assets/seeyou.png')}
@@ -79,7 +80,7 @@ const OrderScreen = ({navigation}: any) => {
           </Row>
         )}
       </Section>
-      {guestData.length > 0 ? <OrderHistory guestData={guestData} /> : <></>}
+      {guestData?.id ? <OrderHistory guestData={guestData} /> : <></>}
     </Container>
   );
 };

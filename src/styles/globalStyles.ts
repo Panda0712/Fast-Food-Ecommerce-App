@@ -11,6 +11,15 @@ export const globalStyles = StyleSheet.create({
     alignItems: 'center',
   },
 
+  paymentContainer: {
+    borderRadius: 8,
+    paddingHorizontal: 12,
+    paddingVertical: 12,
+    borderBottomColor: colors.black4,
+    borderBottomWidth: 1,
+    backgroundColor: colors.grey,
+  },
+
   modal: {
     flex: 1,
   },

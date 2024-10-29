@@ -96,6 +96,42 @@ export const getPaginationOrders = async (guestId, start, end) => {
   return {paginationOrders, error};
 };
 
+export const insertOrder = async newData => {
+  const {data: orderInsert, error} = await supabase
+    .from('orders')
+    .insert([newData])
+    .select();
+
+  if (error) {
+    Toast.show({
+      type: 'error',
+      text1: 'Thông báo',
+      text2: error.message,
+    });
+    throw new Error('Lỗi tạo đơn hàng! Vui lòng thử lại sau!');
+  }
+
+  return {orderInsert, error};
+};
+
+export const insertMultipleOrders = async newData => {
+  const {data: orderMultipleInsert, error} = await supabase
+    .from('orders')
+    .insert(newData)
+    .select();
+
+  if (error) {
+    Toast.show({
+      type: 'error',
+      text1: 'Thông báo',
+      text2: error.message,
+    });
+    throw new Error('Lỗi tạo đơn hàng! Vui lòng thử lại sau!');
+  }
+
+  return {orderMultipleInsert, error};
+};
+
 export const insertContact = async newData => {
   const {data: contactData, error} = await supabase
     .from('contact')
@@ -138,4 +174,22 @@ export const getSpecificUser = async email => {
   }
 
   return {guest: guest[0], error};
+};
+
+export const insertUser = async newData => {
+  const {data: userData, error} = await supabase
+    .from('guests')
+    .insert([newData])
+    .select();
+
+  if (error) {
+    Toast.show({
+      type: 'error',
+      text1: 'Thông báo',
+      text2: error.message,
+    });
+    throw new Error('Thêm dữ liệu khách hàng thất bại! Vui lòng thử lại sau!');
+  }
+
+  return {userData, error};
 };

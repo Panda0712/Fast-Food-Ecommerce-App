@@ -60,7 +60,7 @@ const ShippingForm = () => {
       handleGetUser(userEmail).then(data => {
         setGuestData(data);
 
-        if (data) {
+        if (data.fullName) {
           const name = data.fullName.split(' ');
           const len = name.length;
           const firstName = len > 1 ? name.slice(0, -1).join(' ') : name[0];

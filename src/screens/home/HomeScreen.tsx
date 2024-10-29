@@ -83,20 +83,25 @@ const HomeScreen = ({navigation}: any) => {
         </Row>
       </Section>
 
-      <Section>
-        <Input
-          value={searchQuery}
-          onChange={val => setSearchQuery(val)}
-          placeholder="Tìm kiếm..."
-          placeholderColor={colors.grey3}
-          clear
-          affix={
-            <TouchableOpacity>
-              <SearchNormal1 size="28" color={colors.black} />
-            </TouchableOpacity>
-          }
-        />
-      </Section>
+      <TouchableOpacity onPress={() => navigation.navigate('SearchScreen')}>
+        <Section>
+          <Input
+            color={colors.grey}
+            disable={true}
+            styles={{backgroundColor: colors.grey}}
+            value={searchQuery}
+            onChange={val => setSearchQuery(val)}
+            placeholder="Tìm kiếm..."
+            placeholderColor={colors.grey3}
+            clear
+            affix={
+              <TouchableOpacity>
+                <SearchNormal1 size="28" color={colors.black} />
+              </TouchableOpacity>
+            }
+          />
+        </Section>
+      </TouchableOpacity>
 
       <Section styles={{marginBottom: 20}}>
         <Row justifyContent="space-between">
