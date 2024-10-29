@@ -134,7 +134,6 @@ const FoodDetail = ({navigation, route}: any) => {
                     styles={{paddingHorizontal: 12, paddingVertical: 8}}
                     size={18}
                     text={food.description}
-                    numberOfLines={2}
                   />
                 </View>
 

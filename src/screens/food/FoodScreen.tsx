@@ -59,7 +59,7 @@ const FoodScreen = ({navigation}: any) => {
     filterFoods = [...foods];
   } else {
     filterFoods = foods.filter(
-      food => food.category.toLowerCase() === selectedCategory,
+      food => food.category.toLowerCase() === selectedCategory.toLowerCase(),
     );
   }
 
