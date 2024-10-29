@@ -8,7 +8,7 @@ import {colors} from '../../constants/colors';
 import {fontFamilies} from '../../constants/fontFamilies';
 import {FoodModel} from '../../constants/models';
 import {sizes} from '../../constants/sizes';
-import {getFoods} from '../../lib/actions';
+import {getFoodsCount} from '../../lib/actions';
 import {formatVND} from '../../utils/helper';
 
 import auth from '@react-native-firebase/auth';
@@ -22,8 +22,8 @@ const HomeScreen = ({navigation}: any) => {
   const user = auth().currentUser;
 
   const handleGetFoods = async () => {
-    const items: any = await getFoods();
-    setFoods(items.foods);
+    const items: any = await getFoodsCount(0, 12);
+    setFoods(items.foodsCount);
   };
 
   useEffect(() => {

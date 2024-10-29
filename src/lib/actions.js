@@ -15,10 +15,34 @@ export const getFoods = async () => {
   let {data: foods, error} = await supabase.from('foods').select('*');
 
   if (error) {
+    Toast.show({
+      type: 'error',
+      text1: 'Thông báo',
+      text2: error.message,
+    });
     throw new Error('Lỗi tải dữ liệu món ăn! Vui lòng thử lại sau!');
   }
 
   return {foods, error};
+};
+
+export const getFoodsCount = async (start, end) => {
+  let {data: foodsCount, error} = await supabase
+    .from('foods')
+    .select('*')
+    .order('created_at', {ascending: false})
+    .range(start, end);
+
+  if (error) {
+    Toast.show({
+      type: 'error',
+      text1: 'Thông báo',
+      text2: error.message,
+    });
+    throw new Error('Lấy dữ liệu món ăn slide thất bại! Vui lòng thử lại sau!');
+  }
+
+  return {foodsCount, error};
 };
 
 export const getRelatedFoods = async (category, id) => {
@@ -30,6 +54,11 @@ export const getRelatedFoods = async (category, id) => {
     .limit(8);
 
   if (error) {
+    Toast.show({
+      type: 'error',
+      text1: 'Thông báo',
+      text2: error.message,
+    });
     throw new Error(
       'Lỗi tải dữ liệu các món ăn tương ứng! Vui lòng thử lại sau!',
     );
