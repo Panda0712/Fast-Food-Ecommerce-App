@@ -5,10 +5,7 @@ import {Linking, ScrollView, StyleSheet, TouchableOpacity} from 'react-native';
 import MapView, {PROVIDER_GOOGLE} from 'react-native-maps';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome5Brands from 'react-native-vector-icons/FontAwesome5';
-import {
-  default as FontAwesome6,
-  default as FontAwesome6Brands,
-} from 'react-native-vector-icons/FontAwesome6';
+import {default as FontAwesome6} from 'react-native-vector-icons/FontAwesome6';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {Container, TextComponent} from '../../components';
 import {colors} from '../../constants/colors';
@@ -86,39 +83,6 @@ const AboutScreen = ({navigation}: any) => {
                 styles={{borderBottomColor: colors.grey3, borderBottomWidth: 1}}
                 size={16}
                 text="Chat qua Instagram"
-              />
-            </Row>
-          </TouchableOpacity>
-
-          <Space height={12} />
-
-          <TouchableOpacity onPress={() => openLink('https://x.com')}>
-            <Row justifyContent="flex-start">
-              <AntDesign name="twitter" color={colors.twitter} size={28} />
-              <Space width={12} />
-              <TextComponent
-                styles={{borderBottomColor: colors.grey3, borderBottomWidth: 1}}
-                size={16}
-                text="Chat qua Twitter"
-              />
-            </Row>
-          </TouchableOpacity>
-
-          <Space height={12} />
-
-          <TouchableOpacity
-            onPress={() => openLink('https://www.threads.net/@sadoc_ean')}>
-            <Row justifyContent="flex-start">
-              <FontAwesome6Brands
-                name="square-threads"
-                color={colors.black}
-                size={28}
-              />
-              <Space width={12} />
-              <TextComponent
-                styles={{borderBottomColor: colors.grey3, borderBottomWidth: 1}}
-                size={16}
-                text="Chat qua Threads"
               />
             </Row>
           </TouchableOpacity>
