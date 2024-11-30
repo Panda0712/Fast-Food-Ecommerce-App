@@ -28,6 +28,19 @@ export function parseDateTime(dateTimeString: string) {
   };
 }
 
+export const parseTime = (time: any) => {
+  const date = new Date(time.seconds * 1000);
+
+  const hours = String(date.getHours()).padStart(2, '0');
+  const minutes = String(date.getMinutes()).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const year = date.getFullYear();
+
+  const formattedDate = `${hours}:${minutes} ${day}/${month}/${year}`;
+  return formattedDate;
+};
+
 export const validateEmail = (email: string) => {
   const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
   return emailRegex.test(email);

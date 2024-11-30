@@ -11,16 +11,18 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 const ProfileScreen = ({navigation}: any) => {
   const user = auth().currentUser;
 
   return (
     <Container style={{backgroundColor: colors.red}}>
+      <Space height={20} />
       <Row
         justifyContent="center"
         styles={{
-          paddingVertical: 12,
+          paddingVertical: 16,
         }}>
         <Image
           source={require('../../assets/logo.png')}
@@ -69,6 +71,24 @@ const ProfileScreen = ({navigation}: any) => {
               <FontAwesome6 name="clipboard-list" size={20} />
               <Space width={10} />
               <TextComponent size={18} text="Danh sách đơn hàng" />
+            </Row>
+            <Ionicons name="chevron-forward" size={20} />
+          </Row>
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={() => navigation.navigate('FavoriteScreen')}>
+          <Row
+            justifyContent="space-between"
+            styles={{
+              paddingHorizontal: 8,
+              paddingVertical: 16,
+              borderBottomColor: colors.grey2,
+              borderBottomWidth: 1,
+            }}>
+            <Row>
+              <MaterialIcons name="favorite" size={20} />
+              <Space width={10} />
+              <TextComponent size={18} text="Danh sách yêu thích" />
             </Row>
             <Ionicons name="chevron-forward" size={20} />
           </Row>

@@ -5,6 +5,7 @@ import CartScreen from './cart/CartScreen';
 import CheckoutScreen from './checkout/CheckoutScreen';
 import CheckoutForm from './checkout/components/CheckoutForm';
 import ContactScreen from './contact/ContactScreen';
+import FavoriteScreen from './favorite/FavoriteScreen';
 import FoodDetail from './food/FoodDetail';
 import FoodScreen from './food/FoodScreen';
 import HomeScreen from './home/HomeScreen';
@@ -36,4 +37,5 @@ export {
   SuccessScreen,
   OrderHistory,
   CheckoutForm,
+  FavoriteScreen,
 };

@@ -38,4 +38,23 @@ export const globalStyles = StyleSheet.create({
     borderRadius: 12,
     backgroundColor: colors.white,
   },
+
+  inputContainer: {
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    borderRadius: 100,
+    borderWidth: 1,
+    minHeight: 48,
+    borderColor: colors.grey3,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+
+  input: {
+    padding: 0,
+    margin: 0,
+    color: '#0F1414',
+    fontSize: 14,
+    flex: 1,
+  },
 });

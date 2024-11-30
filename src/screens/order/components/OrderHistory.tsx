@@ -128,8 +128,8 @@ const OrderHistory = ({guestData}: any) => {
             </View>
           );
         }}
-        renderItem={({item}) => (
-          <Section key={item.id}>
+        renderItem={({item, index}) => (
+          <Section key={index}>
             <Row justifyContent="flex-start" alignItems="flex-start">
               <Image
                 source={{

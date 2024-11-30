@@ -10,21 +10,185 @@ import {colors} from '../../constants/colors';
 import Toast from 'react-native-toast-message';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {fontFamilies} from '../../constants/fontFamilies';
-import {FoodModel} from '../../constants/models';
+import {FoodLikes, FoodModel, Reviews} from '../../constants/models';
 import {sizes} from '../../constants/sizes';
 import {useCart} from '../../context/CartContext';
 import {getFoods, getRelatedFoods} from '../../lib/actions';
-import {formatVND} from '../../utils/helper';
+import {formatVND, parseTime} from '../../utils/helper';
+import auth from '@react-native-firebase/auth';
+import firestore from '@react-native-firebase/firestore';
+import Entypo from 'react-native-vector-icons/Entypo';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import Input from '../../components/InputComponent';
+import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 
 const FoodDetail = ({navigation, route}: any) => {
   const [foods, setFoods] = useState<FoodModel[]>([]);
   const [relatedFoods, setRelatedFoods] = useState<FoodModel[]>([]);
+  const [favorites, setFavorites] = useState<FoodModel[]>([]);
+  const [foodLikes, setFoodLikes] = useState<FoodLikes>();
+  const [commentValue, setCommentValue] = useState('');
+  const [reviews, setReviews] = useState<Reviews[]>([]);
 
+  const user = auth().currentUser;
+  const userId = auth().currentUser?.uid;
   const {food} = route.params;
+  const foodName = food.name;
   const {cart, addToCart, handleDecrement, handleIncrement}: any = useCart();
 
   const checkCart = cart.filter((item: any) => item.id === food.id);
   const isInCart = checkCart.length > 0;
+
+  const handleGetComments = () => {
+    firestore()
+      .collection('reviews')
+      .where('name', '==', foodName)
+      .onSnapshot((snapshot: any) => {
+        const items = snapshot.docs.map((doc: any) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setReviews(items);
+      });
+  };
+
+  const getFavoritesMovies = () => {
+    firestore()
+      .collection('favorites')
+      .doc(userId)
+      .onSnapshot(item => {
+        const existingFavorites = item.data()?.favorites || [];
+        setFavorites(existingFavorites);
+      });
+  };
+
+  const getFoodLikes = () => {
+    firestore()
+      .collection('foods')
+      .doc(food.name)
+      .onSnapshot((item: any) => {
+        setFoodLikes(item.data() || []);
+      });
+  };
+
+  const handlePostComments = async () => {
+    if (!commentValue) {
+      Toast.show({
+        type: 'error',
+        text1: 'Thông báo',
+        text2: 'Vui lòng nhập bình luận của bạn',
+      });
+      return;
+    }
+
+    const commentData = {
+      user: user?.displayName,
+      userComments: commentValue,
+      userId: user?.uid,
+      photoUrl: user?.photoURL ?? '',
+      timestamp: new Date(),
+    };
+
+    if (reviews.length > 0) {
+      await firestore()
+        .doc(`reviews/${reviews[0].id}`)
+        .update({
+          comments: firestore.FieldValue.arrayUnion(commentData),
+        });
+    } else {
+      await firestore()
+        .collection('reviews')
+        .add({
+          name: foodName,
+          comments: [commentData],
+        });
+    }
+    setCommentValue('');
+  };
+
+  const handleDeleteComment = async (index: number, reviewsData: Reviews) => {
+    try {
+      await firestore()
+        .collection('reviews')
+        .doc(reviewsData.id)
+        .update({
+          comments: firestore.FieldValue.arrayRemove(
+            reviewsData.comments[index],
+          ),
+        });
+      Toast.show({
+        type: 'success',
+        text1: 'Thông báo',
+        text2: 'Xóa bình luận thành công',
+      });
+    } catch (error) {
+      console.log(error);
+      Toast.show({
+        type: 'error',
+        text1: 'Thông báo',
+        text2: 'Xóa bình luận thất bại',
+      });
+    }
+  };
+
+  const addLikeFood = async (name: string, userIdProp: string | undefined) => {
+    if (!userId) {
+      return;
+    }
+
+    const userRef = firestore().collection('foods').doc(food.name);
+    const userDoc = await userRef.get();
+    if (userDoc.exists) {
+      const existingLikes = userDoc.data()?.likes || [];
+      const specificUser = existingLikes.filter(
+        (item: string) => item === userId,
+      );
+      const updatedLikes =
+        specificUser.length > 0
+          ? existingLikes.filter((item: string) => item !== userIdProp)
+          : [...existingLikes, userIdProp];
+      await userRef.update({likes: updatedLikes});
+    } else {
+      await userRef.set({
+        name,
+        likes: [userIdProp],
+      });
+    }
+  };
+
+  const addFavoriteMovie = async (foodItem: FoodModel) => {
+    if (!userId) {
+      return;
+    }
+    const userRef = firestore().collection('favorites').doc(userId);
+    const userDoc = await userRef.get();
+    if (userDoc.exists) {
+      const existingFavorites = userDoc.data()?.favorites || [];
+      const specificItem = existingFavorites.filter(
+        (item: FoodModel) => item.name === foodItem.name,
+      );
+      const updatedFavorites =
+        specificItem.length > 0
+          ? existingFavorites.filter(
+              (item: FoodModel) => item.name !== foodItem.name,
+            )
+          : [...existingFavorites, foodItem];
+      await userRef.update({favorites: updatedFavorites});
+      Toast.show({
+        type: 'success',
+        text1: 'Thông báo',
+        text2:
+          specificItem.length > 0
+            ? 'Xóa khỏi danh sách thành công'
+            : 'Thêm vào danh sách yêu thích thành công',
+      });
+    } else {
+      await userRef.set({
+        id: userId,
+        favorites: [foodItem],
+      });
+    }
+  };
 
   const handleError = () => {
     Toast.show({
@@ -65,8 +229,11 @@ const FoodDetail = ({navigation, route}: any) => {
   };
 
   useEffect(() => {
+    handleGetComments();
     handleGetSpecificFoods();
     handleGetFoods();
+    getFavoritesMovies();
+    getFoodLikes();
   }, []);
 
   let filterFoods = [...relatedFoods];
@@ -196,6 +363,233 @@ const FoodDetail = ({navigation, route}: any) => {
                         />
                       </Row>
                     </TouchableOpacity>
+                  </Row>
+                </Section>
+
+                <Space height={8} />
+
+                <Section>
+                  <Row
+                    justifyContent="flex-start"
+                    styles={{
+                      borderTopColor: colors.grey2,
+                      borderTopWidth: 2,
+                      borderBottomColor: colors.grey2,
+                      borderBottomWidth: 2,
+                      paddingVertical: 20,
+                    }}>
+                    <Row
+                      alignItems="center"
+                      styles={{flexDirection: 'column', gap: 2}}>
+                      <TouchableOpacity
+                        onPress={() => addLikeFood(food.name, userId)}>
+                        {foodLikes &&
+                        foodLikes?.likes?.filter(
+                          (item: string) => item === userId,
+                        ).length > 0 ? (
+                          <AntDesign
+                            name="heart"
+                            size={32}
+                            color={colors.red}
+                          />
+                        ) : (
+                          <AntDesign
+                            name="heart"
+                            size={32}
+                            color={colors.black}
+                          />
+                        )}
+                      </TouchableOpacity>
+                      <TextComponent
+                        size={sizes.title}
+                        color={colors.black}
+                        text={`${foodLikes?.likes?.length ?? 0}`}
+                      />
+                    </Row>
+
+                    <Space width={24} />
+
+                    <Row
+                      alignItems="center"
+                      styles={{flexDirection: 'column', gap: 2}}>
+                      <TouchableOpacity onPress={() => addFavoriteMovie(food)}>
+                        {favorites.filter(
+                          (item: FoodModel) => item.name === food.name,
+                        ).length > 0 ? (
+                          <Entypo name="check" size={32} color={colors.black} />
+                        ) : (
+                          <Entypo name="plus" size={32} color={colors.black} />
+                        )}
+                      </TouchableOpacity>
+                      <TextComponent
+                        size={sizes.title}
+                        color={colors.black}
+                        text="Danh sách"
+                      />
+                    </Row>
+                  </Row>
+
+                  <Space height={20} />
+
+                  <Row
+                    alignItems="flex-start"
+                    styles={{
+                      flexDirection: 'column',
+                      borderBottomColor: colors.grey2,
+                      borderBottomWidth: 2,
+                      paddingBottom: 8,
+                    }}>
+                    <TextComponent
+                      text="Bình luận"
+                      font={fontFamilies.mergeRegular}
+                      size={sizes.title}
+                      color={colors.black}
+                    />
+                    <Space height={12} />
+                    <Row justifyContent="flex-start" styles={{width: '100%'}}>
+                      <Input
+                        bordered={false}
+                        color="transparent"
+                        styles={{
+                          width: sizes.width - 40,
+                          paddingHorizontal: 0,
+                        }}
+                        value={commentValue}
+                        onChange={setCommentValue}
+                        placeholderColor={colors.black}
+                        inputStyles={{color: colors.black}}
+                        placeholder="Nhập bình luận"
+                        prefix={
+                          user?.photoURL ? (
+                            <Row
+                              styles={{
+                                position: 'relative',
+                                borderRadius: 100,
+                                width: 30,
+                                height: 30,
+                                overflow: 'hidden',
+                              }}>
+                              <Image
+                                source={{uri: user.photoURL}}
+                                width={20}
+                                height={20}
+                                style={{width: 30, height: 30}}
+                              />
+                            </Row>
+                          ) : (
+                            <FontAwesome6
+                              name="circle-user"
+                              color={colors.black}
+                              size={30}
+                            />
+                          )
+                        }
+                        affix={
+                          <TouchableOpacity onPress={handlePostComments}>
+                            <Ionicons
+                              name="send"
+                              color={colors.black}
+                              size={24}
+                            />
+                          </TouchableOpacity>
+                        }
+                      />
+                    </Row>
+                    <Space height={4} />
+                    {reviews?.length > 0 ? (
+                      <View>
+                        <Row
+                          alignItems="flex-start"
+                          styles={{flexDirection: 'column'}}>
+                          {reviews[0]?.comments.map((item, index) => (
+                            <Row
+                              styles={{
+                                position: 'relative',
+                                marginBottom: 10,
+                                width: sizes.width - 50,
+                              }}
+                              alignItems="flex-start"
+                              justifyContent="space-between"
+                              key={index}>
+                              <Row alignItems="flex-start">
+                                {item?.photoUrl ? (
+                                  <Row
+                                    styles={{
+                                      position: 'relative',
+                                      borderRadius: 100,
+                                      width: 30,
+                                      height: 30,
+                                      overflow: 'hidden',
+                                    }}>
+                                    <Image
+                                      source={{uri: item.photoUrl}}
+                                      width={20}
+                                      height={20}
+                                      style={{width: 30, height: 30}}
+                                    />
+                                  </Row>
+                                ) : (
+                                  <FontAwesome6
+                                    name="circle-user"
+                                    color={colors.white}
+                                    size={30}
+                                  />
+                                )}
+                                <Space width={12} />
+                                <Row
+                                  alignItems="flex-start"
+                                  styles={{flexDirection: 'column'}}>
+                                  <TextComponent
+                                    font={fontFamilies.mergeRegular}
+                                    color={colors.black}
+                                    text={item.user}
+                                  />
+                                  <TextComponent
+                                    styles={{maxWidth: sizes.width * 0.5}}
+                                    color={colors.black}
+                                    text={item.userComments}
+                                  />
+                                </Row>
+                              </Row>
+                              <Row>
+                                <TextComponent
+                                  styles={{
+                                    textAlign: 'right',
+                                  }}
+                                  color={colors.black}
+                                  text={parseTime(item.timestamp)}
+                                />
+                                {item?.userId === user?.uid && (
+                                  <>
+                                    <Space width={8} />
+                                    <TouchableOpacity
+                                      onPress={() =>
+                                        handleDeleteComment(index, reviews[0])
+                                      }>
+                                      <TextComponent
+                                        font={fontFamilies.mergeRegular}
+                                        text="Xóa"
+                                        color={colors.red}
+                                      />
+                                    </TouchableOpacity>
+                                  </>
+                                )}
+                              </Row>
+                            </Row>
+                          ))}
+                        </Row>
+                      </View>
+                    ) : (
+                      <Section>
+                        <Row>
+                          <TextComponent
+                            font={fontFamilies.mergeRegular}
+                            color={colors.black}
+                            text="Chưa có bình luận nào"
+                          />
+                        </Row>
+                      </Section>
+                    )}
                   </Row>
                 </Section>
 

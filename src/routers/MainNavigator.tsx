@@ -5,6 +5,7 @@ import {
   AboutScreen,
   CheckoutScreen,
   ContactScreen,
+  FavoriteScreen,
   FoodDetail,
   OrderScreen,
   SearchScreen,
@@ -29,6 +30,7 @@ const MainNavigator = () => {
       <Stack.Screen name="ShippingScreen" component={ShippingScreen} />
       <Stack.Screen name="CheckoutScreen" component={CheckoutScreen} />
       <Stack.Screen name="SuccessScreen" component={SuccessScreen} />
+      <Stack.Screen name="FavoriteScreen" component={FavoriteScreen} />
     </Stack.Navigator>
   );
 };

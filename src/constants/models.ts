@@ -13,6 +13,11 @@ export interface FoodModel {
   category: string;
 }
 
+export interface FoodLikes {
+  name: string;
+  likes: string[];
+}
+
 export interface ContactModel {
   name: string;
   email: string;
@@ -49,4 +54,18 @@ export interface FormData {
   phone: string;
   address: string;
   observations?: string;
+}
+
+export interface Comments {
+  user: string;
+  userId?: string;
+  userComments: string;
+  timestamp: string;
+  photoUrl: string;
+}
+
+export interface Reviews {
+  id: string;
+  name: string;
+  comments: Comments[];
 }
