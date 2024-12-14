@@ -148,6 +148,7 @@ const AboutScreen = ({navigation}: any) => {
               />
               <Space width={12} />
               <TextComponent
+                styles={{maxWidth: 300}}
                 size={16}
                 text="280 An Dương Vương, phường 4, quận 5, TPHCM"
               />

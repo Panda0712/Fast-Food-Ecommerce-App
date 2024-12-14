@@ -161,6 +161,25 @@ export const insertMultipleOrders = async newData => {
   return {orderMultipleInsert, error};
 };
 
+export const updateOrder = async (updateData, id) => {
+  const {data: updatedData, error} = await supabase
+    .from('orders')
+    .update(updateData)
+    .eq('id', id)
+    .select();
+
+  if (error) {
+    Toast.show({
+      type: 'error',
+      text1: 'Thông báo',
+      text2: error.message,
+    });
+    throw new Error('Lỗi cập nhật đơn hàng! Vui lòng thử lại sau!');
+  }
+
+  return {updatedData, error};
+};
+
 export const insertContact = async newData => {
   const {data: contactData, error} = await supabase
     .from('contact')

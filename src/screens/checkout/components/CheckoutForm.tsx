@@ -58,7 +58,7 @@ const CheckoutForm = () => {
       formData.id = userData[0].id;
     }
 
-    const orderTime = new Date(Date.now())
+    const orderTime = new Date(Date.now() + 7 * 60 * 60 * 1000)
       .toISOString()
       .replace('T', ' ')
       .replace('Z', '');
