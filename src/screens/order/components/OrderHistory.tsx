@@ -31,7 +31,6 @@ type NavigationProp = NativeStackNavigationProp<
 >;
 
 const DEFAULT_FOOD_IMAGE = 'https://via.placeholder.com/120';
-const empty = {};
 
 const OrderHistory = ({guestData}: any) => {
   const [orders, setOrders] = useState<OrderModel[]>([]);
