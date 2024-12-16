@@ -7,20 +7,27 @@ import {FlatList, Image, TouchableOpacity, View} from 'react-native';
 import {Container, TextComponent} from '../../components';
 import {colors} from '../../constants/colors';
 
-import Toast from 'react-native-toast-message';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import {fontFamilies} from '../../constants/fontFamilies';
-import {FoodLikes, FoodModel, Reviews} from '../../constants/models';
-import {sizes} from '../../constants/sizes';
-import {useCart} from '../../context/CartContext';
-import {getFoods, getRelatedFoods} from '../../lib/actions';
-import {formatVND, parseTime} from '../../utils/helper';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
-import Entypo from 'react-native-vector-icons/Entypo';
+import StarRating from 'react-native-star-rating-widget';
+import Toast from 'react-native-toast-message';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import Input from '../../components/InputComponent';
+import Entypo from 'react-native-vector-icons/Entypo';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import Input from '../../components/InputComponent';
+import {fontFamilies} from '../../constants/fontFamilies';
+import {
+  FoodLikes,
+  FoodModel,
+  Ratings,
+  RatingsField,
+  Reviews,
+} from '../../constants/models';
+import {sizes} from '../../constants/sizes';
+import {useCart} from '../../context/CartContext';
+import {getFoods, getRelatedFoods, updateSpecificFood} from '../../lib/actions';
+import {formatVND, parseTime} from '../../utils/helper';
 
 const FoodDetail = ({navigation, route}: any) => {
   const [foods, setFoods] = useState<FoodModel[]>([]);
@@ -29,11 +36,14 @@ const FoodDetail = ({navigation, route}: any) => {
   const [foodLikes, setFoodLikes] = useState<FoodLikes>();
   const [commentValue, setCommentValue] = useState('');
   const [reviews, setReviews] = useState<Reviews[]>([]);
+  const [rating, setRating] = useState(0);
+  const [ratingsData, setRatingsData] = useState<RatingsField[]>([]);
 
   const user = auth().currentUser;
   const userId = auth().currentUser?.uid;
   const {food} = route.params;
   const foodName = food.name;
+  const foodId = food.id;
   const {cart, addToCart, handleDecrement, handleIncrement}: any = useCart();
 
   const checkCart = cart.filter((item: any) => item.id === food.id);
@@ -49,6 +59,23 @@ const FoodDetail = ({navigation, route}: any) => {
           ...doc.data(),
         }));
         setReviews(items);
+      });
+  };
+
+  const getFoodRating = () => {
+    firestore()
+      .collection('ratings')
+      .where('name', '==', foodName)
+      .onSnapshot((snapshot: any) => {
+        const items = snapshot.docs.map((doc: any) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setRatingsData(items);
+        const ratingUser = items[0].ratings.filter(
+          (item: any) => item.userId === userId,
+        );
+        setRating(ratingUser[0].userRating ?? 0);
       });
   };
 
@@ -104,6 +131,67 @@ const FoodDetail = ({navigation, route}: any) => {
         });
     }
     setCommentValue('');
+  };
+
+  const handleRatingChange = async (ratingValue: number) => {
+    setRating(ratingValue);
+
+    const ratingData = {
+      user: user?.displayName,
+      userRating: ratingValue,
+      userId: user?.uid,
+      photoUrl: user?.photoURL ?? '',
+      timestamp: new Date(),
+    };
+
+    const updatedFood = {...food};
+
+    if (ratingsData?.length > 0) {
+      const existingRatings: any = ratingsData[0].ratings;
+
+      const updatedRatings: any = existingRatings.map((item: Ratings) =>
+        item.userId === userId ? {...item, userRating: ratingValue} : item,
+      );
+
+      const isUserRated = existingRatings.some(
+        (item: Ratings) => item.userId === userId,
+      );
+      if (!isUserRated) {
+        updatedRatings.push(ratingData);
+      }
+
+      const allRatingValue = updatedRatings.reduce(
+        (acc: number, ratingCur: any) => acc + ratingCur.userRating,
+        0,
+      );
+
+      const ratingAverage = allRatingValue / updatedRatings.length;
+
+      updatedFood.rating = ratingAverage;
+      updatedFood.reviews_count = updatedFood.reviews_count
+        ? updatedFood.reviews_count + 1
+        : 1;
+
+      await updateSpecificFood(updatedFood, foodId);
+
+      await firestore().doc(`ratings/${ratingsData[0].id}`).update({
+        ratings: updatedRatings,
+      });
+    } else {
+      await firestore()
+        .collection('ratings')
+        .add({
+          name: foodName,
+          ratings: [ratingData],
+        });
+
+      updatedFood.rating = ratingValue;
+      updatedFood.reviews_count = updatedFood.reviews_count
+        ? updatedFood.reviews_count + 1
+        : 1;
+
+      await updateSpecificFood(updatedFood, foodId);
+    }
   };
 
   const handleDeleteComment = async (index: number, reviewsData: Reviews) => {
@@ -234,6 +322,7 @@ const FoodDetail = ({navigation, route}: any) => {
     handleGetFoods();
     getFavoritesMovies();
     getFoodLikes();
+    getFoodRating();
   }, []);
 
   let filterFoods = [...relatedFoods];
@@ -241,6 +330,9 @@ const FoodDetail = ({navigation, route}: any) => {
   if (relatedFoods.length <= 0) {
     filterFoods = foods.filter(item => item.id !== Number(food.id)).slice(0, 8);
   }
+
+  console.log('ratings: ', ratingsData);
+  console.log('reviews: ', reviews);
 
   return (
     <>
@@ -363,6 +455,30 @@ const FoodDetail = ({navigation, route}: any) => {
                         />
                       </Row>
                     </TouchableOpacity>
+                  </Row>
+                </Section>
+
+                <Space height={8} />
+
+                <Section>
+                  <Row
+                    styles={{
+                      flexDirection: 'column',
+                      borderTopColor: colors.grey2,
+                      borderTopWidth: 2,
+                      paddingTop: 16,
+                    }}
+                    alignItems="flex-start">
+                    <TextComponent
+                      text="Đánh giá"
+                      size={sizes.bigTitle}
+                      color={colors.black}
+                    />
+                    <Space height={8} />
+                    <StarRating
+                      rating={rating}
+                      onChange={ratingValue => handleRatingChange(ratingValue)}
+                    />
                   </Row>
                 </Section>
 

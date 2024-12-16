@@ -11,6 +11,8 @@ export interface FoodModel {
   description: string;
   image: string;
   category: string;
+  rating: number;
+  reviews_count: number;
 }
 
 export interface FoodLikes {
@@ -64,8 +66,22 @@ export interface Comments {
   photoUrl: string;
 }
 
+export interface Ratings {
+  user: string;
+  userId?: string;
+  userRating: number;
+  timestamp: string;
+  photoUrl: string;
+}
+
 export interface Reviews {
   id: string;
   name: string;
   comments: Comments[];
+}
+
+export interface RatingsField {
+  id: string;
+  name: string;
+  ratings: Ratings[];
 }

@@ -85,6 +85,25 @@ export const getSpecificFoods = async foodId => {
   return {foods, error};
 };
 
+export const updateSpecificFood = async (updateData, foodId) => {
+  const {data: updatedData, error} = await supabase
+    .from('foods')
+    .update(updateData)
+    .eq('id', foodId)
+    .select();
+
+  if (error) {
+    Toast.show({
+      type: 'error',
+      text1: 'Thông báo',
+      text2: error.message,
+    });
+    throw new Error('Cập nhật món ăn thất bại! Vui lòng thử lại sau!');
+  }
+
+  return {updatedData, error};
+};
+
 export const getOrdersCount = async guestId => {
   let {count, error} = await supabase
     .from('orders')
