@@ -27,7 +27,7 @@ import {
 import {sizes} from '../../constants/sizes';
 import {useCart} from '../../context/CartContext';
 import {getFoods, getRelatedFoods, updateSpecificFood} from '../../lib/actions';
-import {formatVND, parseTime} from '../../utils/helper';
+import {capitalizeFirstLetter, formatVND, parseTime} from '../../utils/helper';
 
 const FoodDetail = ({navigation, route}: any) => {
   const [foods, setFoods] = useState<FoodModel[]>([]);
@@ -42,12 +42,14 @@ const FoodDetail = ({navigation, route}: any) => {
   const user = auth().currentUser;
   const userId = auth().currentUser?.uid;
   const {food} = route.params;
-  const foodName = food.name;
+  const foodName = capitalizeFirstLetter(food.name);
   const foodId = food.id;
   const {cart, addToCart, handleDecrement, handleIncrement}: any = useCart();
 
   const checkCart = cart.filter((item: any) => item.id === food.id);
   const isInCart = checkCart.length > 0;
+
+  console.log(foodName);
 
   const handleGetComments = () => {
     firestore()
@@ -72,7 +74,7 @@ const FoodDetail = ({navigation, route}: any) => {
           ...doc.data(),
         }));
         setRatingsData(items);
-        const ratingUser = items[0].ratings.filter(
+        const ratingUser = items[0]?.ratings.filter(
           (item: any) => item.userId === userId,
         );
         setRating(ratingUser[0].userRating ?? 0);
@@ -371,7 +373,7 @@ const FoodDetail = ({navigation, route}: any) => {
                       font={fontFamilies.mergeBold}
                       numberOfLines={2}
                       size={21}
-                      text={food.name}
+                      text={foodName}
                       styles={{
                         maxWidth: 250,
                         textAlign: 'center',
@@ -392,7 +394,7 @@ const FoodDetail = ({navigation, route}: any) => {
                   <TextComponent
                     styles={{paddingHorizontal: 12, paddingVertical: 8}}
                     size={18}
-                    text={food.description}
+                    text={capitalizeFirstLetter(food.description)}
                   />
                 </View>
 

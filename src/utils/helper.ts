@@ -50,3 +50,14 @@ export const validatePhoneNumber = (phone: string) => {
   const phoneRegex = /^(0|\+84)(3|5|7|8|9)\d{8}$/;
   return phoneRegex.test(phone);
 };
+
+export function capitalizeFirstLetter(name: string) {
+  // Tách chuỗi thành mảng các từ, loại bỏ khoảng trắng dư thừa
+  const formattedName = name.split(', ').join(' ').trim();
+
+  // Viết hoa chữ cái đầu tiên
+  const capitalized =
+    formattedName.charAt(0).toUpperCase() + formattedName.slice(1);
+
+  return capitalized;
+}

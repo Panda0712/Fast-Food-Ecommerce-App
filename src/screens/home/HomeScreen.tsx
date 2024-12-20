@@ -8,8 +8,8 @@ import {colors} from '../../constants/colors';
 import {fontFamilies} from '../../constants/fontFamilies';
 import {FoodModel} from '../../constants/models';
 import {sizes} from '../../constants/sizes';
-import {getFoodsCount} from '../../lib/actions';
-import {formatVND} from '../../utils/helper';
+import {getFoodsCount, getSpecificUser} from '../../lib/actions';
+import {capitalizeFirstLetter, formatVND} from '../../utils/helper';
 
 import auth from '@react-native-firebase/auth';
 import Swiper from 'react-native-swiper';
@@ -18,8 +18,16 @@ import Cart from '../../components/Cart';
 const HomeScreen = ({navigation}: any) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [foods, setFoods] = useState<FoodModel[]>([]);
+  const [recommendData, setRecommendData] = useState<any>([]);
+  const [isRating, setIsRating] = useState(false);
 
   const user = auth().currentUser;
+  const userEmail = user?.email;
+
+  const checkExistingUser = async (email: string) => {
+    const {guest} = await getSpecificUser(email);
+    return guest;
+  };
 
   const handleGetFoods = async () => {
     const items: any = await getFoodsCount(0, 12);
@@ -29,6 +37,65 @@ const HomeScreen = ({navigation}: any) => {
   useEffect(() => {
     handleGetFoods();
   }, []);
+
+  useEffect(() => {
+    const handleRecommend = async () => {
+      if (userEmail) {
+        checkExistingUser(userEmail).then(async data => {
+          console.log(data);
+
+          if (data?.id) {
+            const response = await fetch(
+              'https://fast-food-recommendation-system-server.onrender.com/api/user-content-based',
+              {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                  guest_id: data.id.toString(),
+                  top_n: 15,
+                }),
+              },
+            );
+
+            const contentBasedData = await response.json();
+            setRecommendData(contentBasedData);
+            setIsRating(false);
+          } else {
+            const response = await fetch(
+              'https://fast-food-recommendation-system-server.onrender.com/api/rating-based',
+              {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+              },
+            );
+
+            const ratingBasedData = await response.json();
+            setRecommendData(ratingBasedData);
+            setIsRating(true);
+          }
+        });
+      } else {
+        const response = await fetch(
+          'https://fast-food-recommendation-system-server.onrender.com/api/rating-based',
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          },
+        );
+
+        const ratingBasedData = await response.json();
+        setRecommendData(ratingBasedData);
+        setIsRating(true);
+      }
+    };
+    handleRecommend();
+  }, [userEmail]);
 
   return (
     <Container isScroll={false} style={{backgroundColor: colors.white}}>
@@ -105,7 +172,15 @@ const HomeScreen = ({navigation}: any) => {
 
       <Section styles={{marginBottom: 20}}>
         <Row justifyContent="space-between">
-          <TextComponent size={18} text="Món ngon phải thử" />
+          <TextComponent
+            styles={{maxWidth: 200}}
+            size={18}
+            text={
+              isRating
+                ? 'Các món ăn được yêu thích nhất'
+                : 'Gợi ý phù hợp cho bạn'
+            }
+          />
           <TouchableOpacity onPress={() => navigation.navigate('FoodTab')}>
             <TextComponent size={16} text="Xem tất cả" />
           </TouchableOpacity>
@@ -113,7 +188,7 @@ const HomeScreen = ({navigation}: any) => {
       </Section>
 
       <Swiper horizontal autoplay activeDotColor={colors.black3} height={200}>
-        {foods.map(food => (
+        {recommendData.map((food: any) => (
           <Row
             justifyContent="flex-start"
             key={food.id}
@@ -141,7 +216,7 @@ const HomeScreen = ({navigation}: any) => {
                 numberOfLines={2}
                 size={17}
                 font={fontFamilies.mergeBold}
-                text={food.name}
+                text={capitalizeFirstLetter(food.name)}
               />
               <TextComponent
                 color={colors.red}
