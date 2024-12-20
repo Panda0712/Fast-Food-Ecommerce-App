@@ -38,6 +38,7 @@ const FoodDetail = ({navigation, route}: any) => {
   const [reviews, setReviews] = useState<Reviews[]>([]);
   const [rating, setRating] = useState(0);
   const [ratingsData, setRatingsData] = useState<RatingsField[]>([]);
+  const [contentFood, setContentFood] = useState<any>([]);
 
   const user = auth().currentUser;
   const userId = auth().currentUser?.uid;
@@ -48,8 +49,6 @@ const FoodDetail = ({navigation, route}: any) => {
 
   const checkCart = cart.filter((item: any) => item.id === food.id);
   const isInCart = checkCart.length > 0;
-
-  console.log(foodName);
 
   const handleGetComments = () => {
     firestore()
@@ -64,6 +63,28 @@ const FoodDetail = ({navigation, route}: any) => {
       });
   };
 
+  const handleGetContentBasedFood = async () => {
+    const response = await fetch(
+      'https://fast-food-recommendation-system-server.onrender.com/api/content-based',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          item_name:
+            food.name.charAt(0).toLowerCase() !== food.name.charAt(0)
+              ? food.name.toLowerCase().trim().split(' ').join(', ')
+              : food.name,
+          top_n: 10,
+        }),
+      },
+    );
+
+    const contentBasedData = await response.json();
+    setContentFood(contentBasedData);
+  };
+
   const getFoodRating = () => {
     firestore()
       .collection('ratings')
@@ -74,10 +95,12 @@ const FoodDetail = ({navigation, route}: any) => {
           ...doc.data(),
         }));
         setRatingsData(items);
-        const ratingUser = items[0]?.ratings.filter(
-          (item: any) => item.userId === userId,
-        );
-        setRating(ratingUser[0].userRating ?? 0);
+        if (items.length > 0) {
+          const ratingUser = items[0]?.ratings.filter(
+            (item: any) => item.userId === userId,
+          );
+          setRating(ratingUser[0]?.userRating ?? 0);
+        }
       });
   };
 
@@ -322,19 +345,11 @@ const FoodDetail = ({navigation, route}: any) => {
     handleGetComments();
     handleGetSpecificFoods();
     handleGetFoods();
+    handleGetContentBasedFood();
     getFavoritesMovies();
     getFoodLikes();
     getFoodRating();
   }, []);
-
-  let filterFoods = [...relatedFoods];
-
-  if (relatedFoods.length <= 0) {
-    filterFoods = foods.filter(item => item.id !== Number(food.id)).slice(0, 8);
-  }
-
-  console.log('ratings: ', ratingsData);
-  console.log('reviews: ', reviews);
 
   return (
     <>
@@ -718,7 +733,7 @@ const FoodDetail = ({navigation, route}: any) => {
                 </Section>
               </>
             )}
-            data={filterFoods}
+            data={contentFood}
             numColumns={2}
             contentContainerStyle={{
               paddingBottom: 150,
@@ -751,7 +766,7 @@ const FoodDetail = ({navigation, route}: any) => {
                     font={fontFamilies.mergeBold}
                     numberOfLines={2}
                     size={18}
-                    text={item.name}
+                    text={capitalizeFirstLetter(item.name)}
                     styles={{
                       width: 120,
                       height: 42,
@@ -762,7 +777,7 @@ const FoodDetail = ({navigation, route}: any) => {
                   />
 
                   <TextComponent
-                    text={item.description}
+                    text={capitalizeFirstLetter(item.description)}
                     styles={{textAlign: 'center', height: 40}}
                     numberOfLines={2}
                   />
